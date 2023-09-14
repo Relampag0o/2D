@@ -56,6 +56,8 @@ public class Practica1FicherosAccesoDatos {
 
                     for (File file : files) {
                         if (file.getId() == id) {
+
+                            System.out.println("File to modify: " + file.getId());
                             System.out.println("Insert the new name: ");
                             file.setName(scannerwords.nextLine());
                             System.out.println("Insert the new size: ");
@@ -67,7 +69,9 @@ public class Practica1FicherosAccesoDatos {
 
                     break;
                 case 3:
-                    
+                    for (File file : files) {
+                        
+                    }
                     
 
                     break;
