@@ -54,14 +54,15 @@ public class Practica1FicherosAccesoDatos {
                     System.out.println("Insert the id you would like to modify: ");
                     int id = scannernums.nextInt();
 
-                    for (File file : files) {
-                        if (file.getId() == id) {
+                    for (int i = 0; i < files.size(); i++) {
 
-                            System.out.println("File to modify: " + file.getId());
+                        if (files.get(i).getId() == id) {
+
+                            System.out.println("File to modify: " + files.get(i).getId());
                             System.out.println("Insert the new name: ");
-                            file.setName(scannerwords.nextLine());
+                            files.get(i).setName(scannerwords.nextLine());
                             System.out.println("Insert the new size: ");
-                            file.setSize(scannernums.nextDouble());
+                            files.get(i).setSize(scannernums.nextDouble());
                             System.out.println("The file has been modified sucessfully!");
                         }
 
@@ -69,23 +70,31 @@ public class Practica1FicherosAccesoDatos {
 
                     break;
                 case 3:
-                    for (File file : files) {
+                    System.out.println("Insert the name or extension you would like to search: ");
+                    filename = scannerwords.nextLine();
 
+                    for (int i = 0; i < files.size(); i++) {
+
+                        if (files.get(i).getName().equals(filename) || files.get(i).getExtension().equals(filename)) {
+                            System.out.println(" + File " + i + ":" + "" + files.get(i).getName() + "." + files.get(i).getExtension());
+                            System.out.println(" - Size: " + files.get(i).getSize() + "kb");
+                            System.out.println("");
+                        }
                     }
 
                     break;
                 case 4:
                     System.out.println("Listing all files: ");
                     for (int i = 0; i < files.size(); i++) {
-                        System.out.println(" + File " + i + ":" + "" + files.get(i).getName() + "." + files.get(i).getExtension());
-                        System.out.println(" - Size: " + files.get(i).getSize() + "kb");
+                        System.out.println(" + File " + String.format("%03d", i) + i + ":" + "" + files.get(i).getName() + "." + files.get(i).getExtension());
+                        System.out.println(" - Size: " + files.get(i).getSize() + " kb");
                         System.out.println("");
                     }
 
                     break;
                 case 5:
 
-                    System.out.println("Insert the name or extension you would like to look for: ");
+                    System.out.println("Insert the name or extension you would like to delete: ");
                     filename = scannerwords.nextLine();
 
                     for (File file : files) {
