@@ -70,9 +70,8 @@ public class Practica1FicherosAccesoDatos {
                     break;
                 case 3:
                     for (File file : files) {
-                        
+
                     }
-                    
 
                     break;
                 case 4:
@@ -86,6 +85,17 @@ public class Practica1FicherosAccesoDatos {
                     break;
                 case 5:
 
+                    System.out.println("Insert the name or extension you would like to look for: ");
+                    filename = scannerwords.nextLine();
+
+                    for (File file : files) {
+
+                        if (file.getName().equals(filename) || file.getExtension().equals(filename)) {
+                            files.remove(file);
+                        }
+                    }
+
+                    System.out.println("The file has been deleted sucesfully!");
                     break;
 
                 case 6:
