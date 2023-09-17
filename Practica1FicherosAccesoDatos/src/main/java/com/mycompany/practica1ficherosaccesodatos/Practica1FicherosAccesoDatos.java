@@ -23,20 +23,29 @@ public class Practica1FicherosAccesoDatos {
     }
 
     public static void addFile(LinkedList<File> files) {
-        Scanner scannernums = new Scanner(System.in);
-        Scanner scannerwords = new Scanner(System.in);
 
-        System.out.println("Insert the name and extension: ");
-        String nameextension = scannerwords.nextLine();
-        System.out.println("Insert the size: ");
-        double size = scannernums.nextDouble();
-        String[] fulldetails = nameextension.split("\\.");
-        files.add(new File(fulldetails[0], "." + fulldetails[1], size, ""));
+        try {
+            Scanner scannernums = new Scanner(System.in);
+            Scanner scannerwords = new Scanner(System.in);
 
-        System.out.println("The file has been added sucessfully!");
+            System.out.println("Insert the name and extension: ");
+            String nameextension = scannerwords.nextLine();
 
+            System.out.println("Insert the size: ");
+            double size = scannernums.nextDouble();
+
+            String[] fulldetails = nameextension.split("\\.");
+            files.add(new File(fulldetails[0], "." + fulldetails[1], size, ""));
+
+            System.out.println("The file has been added sucessfully!");
+        } catch (Exception e) {
+            System.out.println("The file couldnt be added. Please, try again later.");
+        }
     }
 
+    // reminder to ask if there is any way to add a try-catch checking if the scanner receives a String.
+    // if thats the case we just ask for another input again, waiting for a number.
+    
     public static void modifyFile(LinkedList<File> files) {
         Scanner scannernums = new Scanner(System.in);
         Scanner scannerwords = new Scanner(System.in);
@@ -45,7 +54,7 @@ public class Practica1FicherosAccesoDatos {
             System.out.println("Insert the id of the file that you would like to modify: ");
             id = scannernums.nextInt();
 
-        } while (id < 0 || id >files.size());
+        } while (id < 0 || id > files.size());
 
         for (int i = 0; i < files.size(); i++) {
 
@@ -94,6 +103,7 @@ public class Practica1FicherosAccesoDatos {
             System.out.println("Sadly there arent any files to be shown. Please try again later!");
         } else {
             System.out.println("Listing all files: ");
+            System.out.println("");
 
             for (int i = 0; i < files.size(); i++) {
                 System.out.println(" + File " + String.format("%02d", files.get(i).getId()) + ": " + "" + files.get(i).getName() + files.get(i).getExtension());
@@ -131,14 +141,19 @@ public class Practica1FicherosAccesoDatos {
 
     public static void main(String[] args) {
 
-        // ask if it would be better to add the scanners as static variables to avoid
+        // Reminder to ask if it would be better to add the scanners as static variables to avoid
         // making so many calls on each method. 
         Scanner scannernums = new Scanner(System.in);
 
         LinkedList<File> files = new LinkedList();
 
+        
+        // random instances to check if everything works as intended. 
         files.add(new File("pepe", ".pdf", 900, "jose"));
-        files.add(new File("juan", ".pdf", 600, "jose"));
+        files.add(new File("juan", ".csv", 600, "jose"));
+        files.add(new File("contrasenias", ".txt", 900, "jose"));
+        files.add(new File("practica1", ".pdf", 600, "jose"));
+        
         int choice = 0;
 
         do {
@@ -187,7 +202,7 @@ public class Practica1FicherosAccesoDatos {
             } catch (Exception e) {
                 System.out.println("Please, do not insert non-numeric characters!");
                 scannernums.nextLine();
-                // i clear the buffer so i avoid any possible troubles. i need to ask if this is needed at all.
+                // Im clearing the buffer so i avoid any possible troubles. I need to ask if this is needed at all.
             }
 
         } while (choice != 6);
