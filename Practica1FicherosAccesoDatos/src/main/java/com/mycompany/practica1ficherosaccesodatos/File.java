@@ -11,36 +11,49 @@ package com.mycompany.practica1ficherosaccesodatos;
 public class File {
 
     private static int nextId = 1; // necesito que se gestione solo cada vez que añada un fichero. 
-    // Esto o con uuid que genera un id unico segun he buscado..
+    // Esto o con uuid que genera un id unico según he buscado..
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
     
     private int id;
     private String name;
     private String extension;
     private double size;
+    private String author;
 
-    public File(String name, String extension, double size) {
+    public File(String name, String extension, double size, String author) {
         this.id = nextId++;
         this.name = name;
         this.extension = extension;
         this.size = size;
+        this.author = author;
     }
 
     public static int getNextId() {
         return nextId;
     }
 
-    public static void setNextId(int nextId) {
-        File.nextId = nextId;
-    }
+    
+    // ESTE TAMPOCO PUEDE SER PÚBLICO
+//    public static void setNextId(int nextId) {
+//        File.nextId = nextId;
+//    }
 
     public int getId() {
         return id;
     }
 
+    /* NO QUIERO QUE ESTE METODO SEA PÚBLICO
     public void setId(int id) {
         this.id = id;
     }
-
+*/
     public String getName() {
         return name;
     }
