@@ -5,6 +5,8 @@ package com.mycompany.practica1ficherosaccesodatos;
 
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -22,8 +24,9 @@ public class Practica1FicherosAccesoDatos {
         System.out.println("4. List all Files");
         System.out.println("5. Delete a File");
         System.out.println("6. Search files for extension");
+        System.out.println("7. Display different extensions");
 
-        System.out.println("6. Exit");
+        System.out.println("9. Exit");
     }
 
     public static void addFile(LinkedList<File> files) {
@@ -154,21 +157,44 @@ public class Practica1FicherosAccesoDatos {
         boolean found = false;
         for (int i = 0; i < files.size(); i++) {
 
-            if (extension.equals(extension)) {
+            if (files.get(i).getExtension().equals(extension)) {
                 System.out.println(" + File " + String.format("%02d", files.get(i).getId()) + ": " + "" + files.get(i).getName() + files.get(i).getExtension());
                 System.out.println(" - Size: " + files.get(i).getSize() + " kb");
                 System.out.println("");
                 counter += files.get(i).getSize();
                 found = true;
 
-            } else 
-                System.out.println("There arent available files with that extension.");
-            
-
-            if (found) {
-                System.out.println("Total size of the extension " + extension );
             }
 
+        }
+        if (found) {
+            System.out.println("Total size of the extensions " + extension + ": " + counter + " kbs");
+        } else {
+            System.out.println("There arent available files. ");
+        }
+
+    }
+
+    public static void displayExtensions(LinkedList<File> files) {
+        String[] extensions = new String[files.size()];
+        Map<String, Integer> extensionsmap = new HashMap<>();
+        for (int i = 0; i < files.size(); i++) {
+
+            extensions[i] = files.get(i).getExtension();
+        }
+
+        for (String extension : extensions) {
+            if (extensionsmap.containsKey(extension)) {
+                extensionsmap.put(extension, extensionsmap.get(extension) + 1);
+            } else {
+                extensionsmap.put(extension, 1);
+            }
+        }
+
+        for (Map.Entry<String, Integer> entry : extensionsmap.entrySet()) {
+            String extension = entry.getKey();
+            int amount = entry.getValue();
+            System.out.println("Extension: " + extension + ", amount: " + amount);
         }
 
     }
@@ -222,6 +248,13 @@ public class Practica1FicherosAccesoDatos {
                         break;
 
                     case 6:
+                        findExtension(files);
+                        break;
+
+                    case 7:
+                        displayExtensions(files);
+                        break;
+                    case 9:
                         System.out.println("Exiting program..");
 
                         break;
@@ -238,7 +271,7 @@ public class Practica1FicherosAccesoDatos {
                 // Im clearing the buffer so i avoid any possible troubles. I need to ask if this is needed at all.
             }
 
-        } while (choice != 6);
+        } while (choice != 9);
 
     }
 }
