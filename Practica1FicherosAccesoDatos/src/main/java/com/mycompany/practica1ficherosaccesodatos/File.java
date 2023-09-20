@@ -12,6 +12,16 @@ public class File {
 
     private static int nextId = 1; // necesito que se gestione solo cada vez que añada un fichero. 
     // Esto o con uuid que genera un id unico según he buscado..
+     private int id;
+    private String name;
+    private String extension;
+    private double size;
+    private String author;
+    
+    
+    
+    
+    
 
     public String getAuthor() {
         return author;
@@ -21,11 +31,7 @@ public class File {
         this.author = author;
     }
     
-    private int id;
-    private String name;
-    private String extension;
-    private double size;
-    private String author;
+   
 
     public File(String name, String extension, double size, String author) {
         this.id = nextId++;

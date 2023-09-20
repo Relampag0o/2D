@@ -177,7 +177,7 @@ public class Practica1FicherosAccesoDatos {
 
     public static void displayExtensions(LinkedList<File> files) {
         String[] extensions = new String[files.size()];
-        Map<String, Integer> extensionsmap = new HashMap<>();
+        Map<String, Integer> extensionsmap = new HashMap<String, Integer>();
         for (int i = 0; i < files.size(); i++) {
 
             extensions[i] = files.get(i).getExtension();
@@ -198,6 +198,8 @@ public class Practica1FicherosAccesoDatos {
         }
 
     }
+    
+    public 
 
     public static void main(String[] args) {
 
