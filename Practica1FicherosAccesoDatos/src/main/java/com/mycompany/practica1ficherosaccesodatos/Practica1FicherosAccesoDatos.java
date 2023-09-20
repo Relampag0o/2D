@@ -12,6 +12,8 @@ import java.util.Scanner;
  */
 public class Practica1FicherosAccesoDatos {
 
+    public Scanner scannerletras = new Scanner(System.in);
+
     public static void showMenuOptions() {
         System.out.println("What would you like to do?");
         System.out.println("1. Add a File");
@@ -19,6 +21,8 @@ public class Practica1FicherosAccesoDatos {
         System.out.println("3. Look for a File");
         System.out.println("4. List all Files");
         System.out.println("5. Delete a File");
+        System.out.println("6. Search files for extension");
+
         System.out.println("6. Exit");
     }
 
@@ -45,7 +49,6 @@ public class Practica1FicherosAccesoDatos {
 
     // reminder to ask if there is any way to add a try-catch checking if the scanner receives a String.
     // if thats the case we just ask for another input again, waiting for a number.
-    
     public static void modifyFile(LinkedList<File> files) {
         Scanner scannernums = new Scanner(System.in);
         Scanner scannerwords = new Scanner(System.in);
@@ -98,7 +101,7 @@ public class Practica1FicherosAccesoDatos {
     }
 
     public static void listFiles(LinkedList<File> files) {
-
+        int counter = 0;
         if (files.size() <= 0) {
             System.out.println("Sadly there arent any files to be shown. Please try again later!");
         } else {
@@ -109,8 +112,11 @@ public class Practica1FicherosAccesoDatos {
                 System.out.println(" + File " + String.format("%02d", files.get(i).getId()) + ": " + "" + files.get(i).getName() + files.get(i).getExtension());
                 System.out.println(" - Size: " + files.get(i).getSize() + " kb");
                 System.out.println("");
+                counter += files.get(i).getSize();
             }
+            System.out.println("Total size of files: " + counter + " kb");
         }
+
     }
 
     public static void deleteFile(LinkedList<File> files) {
@@ -139,6 +145,34 @@ public class Practica1FicherosAccesoDatos {
 
     }
 
+    public static void findExtension(LinkedList<File> files) {
+        Scanner scannernums = new Scanner(System.in);
+        Scanner scannerwords = new Scanner(System.in);
+        System.out.println("Insert the extension you would like to search: ");
+        String extension = scannerwords.nextLine();
+        int counter = 0;
+        boolean found = false;
+        for (int i = 0; i < files.size(); i++) {
+
+            if (extension.equals(extension)) {
+                System.out.println(" + File " + String.format("%02d", files.get(i).getId()) + ": " + "" + files.get(i).getName() + files.get(i).getExtension());
+                System.out.println(" - Size: " + files.get(i).getSize() + " kb");
+                System.out.println("");
+                counter += files.get(i).getSize();
+                found = true;
+
+            } else 
+                System.out.println("There arent available files with that extension.");
+            
+
+            if (found) {
+                System.out.println("Total size of the extension " + extension );
+            }
+
+        }
+
+    }
+
     public static void main(String[] args) {
 
         // Reminder to ask if it would be better to add the scanners as static variables to avoid
@@ -147,13 +181,12 @@ public class Practica1FicherosAccesoDatos {
 
         LinkedList<File> files = new LinkedList();
 
-        
         // random instances to check if everything works as intended. 
         files.add(new File("pepe", ".pdf", 900, "jose"));
         files.add(new File("juan", ".csv", 600, "jose"));
         files.add(new File("contrasenias", ".txt", 900, "jose"));
         files.add(new File("practica1", ".pdf", 600, "jose"));
-        
+
         int choice = 0;
 
         do {
@@ -200,7 +233,7 @@ public class Practica1FicherosAccesoDatos {
                 }
 
             } catch (Exception e) {
-                System.out.println("Please, do not insert non-numeric characters!");
+                System.out.print("Please, do not insert non-numeric characters!");
                 scannernums.nextLine();
                 // Im clearing the buffer so i avoid any possible troubles. I need to ask if this is needed at all.
             }
