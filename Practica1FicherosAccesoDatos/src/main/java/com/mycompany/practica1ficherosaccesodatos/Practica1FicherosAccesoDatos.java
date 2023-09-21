@@ -26,6 +26,9 @@ public class Practica1FicherosAccesoDatos {
         System.out.println("6. Search files for extension");
         System.out.println("7. Display different extensions");
         System.out.println("8. List from largest to smallest");
+        System.out.println("9. List files alphabetically");
+        System.out.println("10. List files grouped by extension");
+
         System.out.println("9. Exit");
     }
 
@@ -217,27 +220,66 @@ public class Practica1FicherosAccesoDatos {
             }
         }
 
-        for (int i=0; i<sortedfiles.size(); i++) {
+        for (int i = 0; i < sortedfiles.size(); i++) {
             System.out.println(" + File " + String.format("%02d", sortedfiles.get(i).getId()) + ": " + "" + files.get(i).getName() + files.get(i).getExtension());
-                System.out.println(" - Size: " + sortedfiles.get(i).getSize() + " kb");
-                System.out.println("");
+            System.out.println(" - Size: " + sortedfiles.get(i).getSize() + " kb");
+            System.out.println("");
         }
 
     }
 
     public static void listAlphabetically(LinkedList<File> files) {
-        String nombre = "abe";
-        String apellido = "bebe";
-        System.out.println(nombre.compareTo(apellido));
+
+        File auxfile = null;
+
+        LinkedList<File> sortedfiles = new LinkedList<File>();
+
+        sortedfiles.addAll(files);
+        int index = 0;
+
+        for (int i = 0; i < sortedfiles.size(); i++) {
+
+            for (int j = 0; j < sortedfiles.size() - 1; j++) {
+                if ((sortedfiles.get(j).getName().compareToIgnoreCase(sortedfiles.get(j + 1).getName())) > index) {
+                    index = (sortedfiles.get(j).getName().compareToIgnoreCase(sortedfiles.get(j + 1).getName()));
+                    auxfile = sortedfiles.get(j);
+                    sortedfiles.set(j, sortedfiles.get(j + 1));
+                    sortedfiles.set(j + 1, auxfile);
+                    auxfile = null;
+
+                }
+
+            }
+            index = 0;
+        }
+
+        for (int i = 0; i < sortedfiles.size(); i++) {
+            System.out.println(" + File " + String.format("%02d", sortedfiles.get(i).getId()) + ": " + "" + sortedfiles.get(i).getName() + sortedfiles.get(i).getExtension());
+            System.out.println(" - Size: " + sortedfiles.get(i).getSize() + " kb");
+            System.out.println("");
+        }
+
+    }
+
+    public static void listByExtensions(LinkedList<File> files) {
+        LinkedList<File> sortedfiles = new LinkedList<File>();
+
+        sortedfiles.addAll(files);
+        
+       for (int i = 0; i < sortedfiles.size(); i++) {
+
+            for (int j = 0; j < sortedfiles.size() - 1; j++) {
+                
+            }
         
         
 
     }
+       
+    }
 
     public static void main(String[] args) {
 
-        // Reminder to ask if it would be better to add the scanners as static variables to avoid
-        // making so many calls on each method. 
         Scanner scannernums = new Scanner(System.in);
 
         LinkedList<File> files = new LinkedList();
@@ -247,6 +289,8 @@ public class Practica1FicherosAccesoDatos {
         files.add(new File("juan", ".csv", 1400, "jose"));
         files.add(new File("contrasenias", ".txt", 800, "jose"));
         files.add(new File("practica1", ".pdf", 1600, "jose"));
+        files.add(new File("aveces", ".txt", 1600, "jose"));
+        files.add(new File("bebederos", ".pdf", 1600, "jose"));
 
         int choice = 0;
 
@@ -293,11 +337,15 @@ public class Practica1FicherosAccesoDatos {
                     case 8:
                         largestToSmallest(files);
                         break;
-                        
+
                     case 9:
-                        
+
                         listAlphabetically(files);
-                        
+
+                        break;
+
+                    case 10:
+
                         break;
                     case 0:
                         System.out.println("Exiting program..");
@@ -313,7 +361,6 @@ public class Practica1FicherosAccesoDatos {
             } catch (Exception e) {
                 System.out.print("Please, do not insert non-numeric characters!");
                 scannernums.nextLine();
-                // Im clearing the buffer so i avoid any possible troubles. I need to ask if this is needed at all.
             }
 
         } while (choice != 0);
