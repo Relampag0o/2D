@@ -25,7 +25,7 @@ public class Practica1FicherosAccesoDatos {
         System.out.println("5. Delete a File");
         System.out.println("6. Search files for extension");
         System.out.println("7. Display different extensions");
-
+        System.out.println("8. List from largest to smallest");
         System.out.println("9. Exit");
     }
 
@@ -196,10 +196,43 @@ public class Practica1FicherosAccesoDatos {
             int amount = entry.getValue();
             System.out.println("Extension: " + extension + ", amount: " + amount);
         }
+// to do: fix this code and optimize it. 
+    }
+
+    public static void largestToSmallest(LinkedList<File> files) {
+        File auxfile = null;
+
+        LinkedList<File> sortedfiles = new LinkedList<File>();
+
+        sortedfiles.addAll(files);
+
+        for (int i = 0; i < sortedfiles.size(); i++) {
+            for (int j = 0; j < sortedfiles.size() - 1; j++) {
+                if (sortedfiles.get(j).getSize() < sortedfiles.get(j + 1).getSize()) {
+                    auxfile = sortedfiles.get(j);
+                    sortedfiles.set(j, sortedfiles.get(j + 1));
+                    sortedfiles.set(j + 1, auxfile);
+
+                }
+            }
+        }
+
+        for (int i=0; i<sortedfiles.size(); i++) {
+            System.out.println(" + File " + String.format("%02d", sortedfiles.get(i).getId()) + ": " + "" + files.get(i).getName() + files.get(i).getExtension());
+                System.out.println(" - Size: " + sortedfiles.get(i).getSize() + " kb");
+                System.out.println("");
+        }
 
     }
-    
-    public 
+
+    public static void listAlphabetically(LinkedList<File> files) {
+        String nombre = "abe";
+        String apellido = "bebe";
+        System.out.println(nombre.compareTo(apellido));
+        
+        
+
+    }
 
     public static void main(String[] args) {
 
@@ -211,9 +244,9 @@ public class Practica1FicherosAccesoDatos {
 
         // random instances to check if everything works as intended. 
         files.add(new File("pepe", ".pdf", 900, "jose"));
-        files.add(new File("juan", ".csv", 600, "jose"));
-        files.add(new File("contrasenias", ".txt", 900, "jose"));
-        files.add(new File("practica1", ".pdf", 600, "jose"));
+        files.add(new File("juan", ".csv", 1400, "jose"));
+        files.add(new File("contrasenias", ".txt", 800, "jose"));
+        files.add(new File("practica1", ".pdf", 1600, "jose"));
 
         int choice = 0;
 
@@ -256,7 +289,17 @@ public class Practica1FicherosAccesoDatos {
                     case 7:
                         displayExtensions(files);
                         break;
+
+                    case 8:
+                        largestToSmallest(files);
+                        break;
+                        
                     case 9:
+                        
+                        listAlphabetically(files);
+                        
+                        break;
+                    case 0:
                         System.out.println("Exiting program..");
 
                         break;
@@ -273,7 +316,7 @@ public class Practica1FicherosAccesoDatos {
                 // Im clearing the buffer so i avoid any possible troubles. I need to ask if this is needed at all.
             }
 
-        } while (choice != 9);
+        } while (choice != 0);
 
     }
 }
