@@ -263,19 +263,33 @@ public class Practica1FicherosAccesoDatos {
 
     public static void listByExtensions(LinkedList<File> files) {
         LinkedList<File> sortedfiles = new LinkedList<File>();
-
-        sortedfiles.addAll(files);
+        LinkedList<String> extensions = new LinkedList<String>();
         
-       for (int i = 0; i < sortedfiles.size(); i++) {
+        File auxfile;
 
-            for (int j = 0; j < sortedfiles.size() - 1; j++) {
-                
+        int counter = 0;
+
+        for (File file : files) {
+            extensions.add(file.getExtension());
+        }
+
+        for (int i = 0; i < extensions.size(); i++) {
+            for (int j = 0; j < extensions.size(); j++) {
+                if (extensions.get(i).equals(files.get(j).getExtension()) && !sortedfiles.contains(files.get(j))) {
+                    sortedfiles.add(counter,files.get(j));
+                    counter++;
+                    
+                }
             }
+            
+        }
         
-        
+        for (int i = 0; i < sortedfiles.size(); i++) {
+            System.out.println(" + File " + String.format("%02d", sortedfiles.get(i).getId()) + ": " + "" + sortedfiles.get(i).getName() + sortedfiles.get(i).getExtension());
+            System.out.println(" - Size: " + sortedfiles.get(i).getSize() + " kb");
+            System.out.println("");
+        }
 
-    }
-       
     }
 
     public static void main(String[] args) {
@@ -290,7 +304,8 @@ public class Practica1FicherosAccesoDatos {
         files.add(new File("contrasenias", ".txt", 800, "jose"));
         files.add(new File("practica1", ".pdf", 1600, "jose"));
         files.add(new File("aveces", ".txt", 1600, "jose"));
-        files.add(new File("bebederos", ".pdf", 1600, "jose"));
+        files.add(new File("bebidas", ".pdf", 1600, "jose"));
+        files.add(new File("bebidas", ".csv", 1600, "jose"));
 
         int choice = 0;
 
@@ -345,7 +360,7 @@ public class Practica1FicherosAccesoDatos {
                         break;
 
                     case 10:
-
+                        listByExtensions(files);
                         break;
                     case 0:
                         System.out.println("Exiting program..");
