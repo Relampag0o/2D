@@ -12,6 +12,11 @@ import java.util.Map;
  *
  * @author josem
  */
+
+
+// Mi expansion de tarea se encuentra en el ejercicio 3 de la segunda práctica, 
+// este cuenta el número de veces que sale una extensión ademas de lo solicitado en el ejercicio
+// aprovechando el mapa. 
 public class Practica1FicherosAccesoDatos {
 
     public Scanner scannerletras = new Scanner(System.in);
@@ -230,12 +235,15 @@ public class Practica1FicherosAccesoDatos {
 
     public static void listAlphabetically(LinkedList<File> files) {
 
-        File auxfile = null;
+        // File auxfile = null;
 
         LinkedList<File> sortedfiles = new LinkedList<File>();
 
         sortedfiles.addAll(files);
-        int index = 0;
+
+        sortedfiles.sort(new AlphComparator());
+
+        /* int index = 0;
 
         for (int i = 0; i < sortedfiles.size(); i++) {
 
@@ -252,7 +260,8 @@ public class Practica1FicherosAccesoDatos {
             }
             index = 0;
         }
-
+        
+         */
         for (int i = 0; i < sortedfiles.size(); i++) {
             System.out.println(" + File " + String.format("%02d", sortedfiles.get(i).getId()) + ": " + "" + sortedfiles.get(i).getName() + sortedfiles.get(i).getExtension());
             System.out.println(" - Size: " + sortedfiles.get(i).getSize() + " kb");
@@ -264,26 +273,28 @@ public class Practica1FicherosAccesoDatos {
     public static void listByExtensions(LinkedList<File> files) {
         LinkedList<File> sortedfiles = new LinkedList<File>();
         LinkedList<String> extensions = new LinkedList<String>();
-        
-        File auxfile;
 
-        int counter = 0;
+        // File auxfile;
 
-        for (File file : files) {
-            extensions.add(file.getExtension());
-        }
+        // int counter = 0;
+        sortedfiles.addAll(files);
 
-        for (int i = 0; i < extensions.size(); i++) {
-            for (int j = 0; j < extensions.size(); j++) {
-                if (extensions.get(i).equals(files.get(j).getExtension()) && !sortedfiles.contains(files.get(j))) {
-                    sortedfiles.add(counter,files.get(j));
-                    counter++;
-                    
-                }
-            }
-            
-        }
-        
+        sortedfiles.sort(new ExtComparator());
+
+//        for (File file : files) {
+//            extensions.add(file.getExtension());
+//        }
+//
+//        for (int i = 0; i < extensions.size(); i++) {
+//            for (int j = 0; j < extensions.size(); j++) {
+//                if (extensions.get(i).equals(files.get(j).getExtension()) && !sortedfiles.contains(files.get(j))) {
+//                    sortedfiles.add(counter,files.get(j));
+//                    counter++;
+//                    
+//                }
+//            }
+//            
+//        }
         for (int i = 0; i < sortedfiles.size(); i++) {
             System.out.println(" + File " + String.format("%02d", sortedfiles.get(i).getId()) + ": " + "" + sortedfiles.get(i).getName() + sortedfiles.get(i).getExtension());
             System.out.println(" - Size: " + sortedfiles.get(i).getSize() + " kb");
