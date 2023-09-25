@@ -12,18 +12,22 @@ public class Main {
         String[] commands = command.split(" ");
 
         if (commands.length > 1) {
+
             File f = new File(commands[1]);
-            if (f.isFile()) {
-                System.out.println("Name: " + f.getName() + " route: " + f.getAbsolutePath());
-            } else {
-                String[] directories = f.list();
-                for (String dir : directories) {
-                    System.out.println(dir);
+            if (f.exists()) {
+                if (f.isFile()) {
+                    System.out.println("Name: " + f.getName() + " || " + " Route: " + f.getAbsolutePath());
+                } else {
+                    String[] directories = f.list();
+                    for (String dir : directories) {
+                        System.out.println(dir);
+
+                    }
 
                 }
-
+            } else {
+                System.out.println("The route is not valid. Please try again.");
             }
-
 
         } else {
             File f = new File(System.getProperty("user.dir"));
@@ -73,6 +77,10 @@ public class Main {
                 case "grep":
 
 
+                    break;
+
+                default:
+                    System.out.println("Invalid command.");
                     break;
 
 
