@@ -57,16 +57,49 @@ public class Main {
 
                 File f2 = new File(commands[2], filename);
                 try {
-                    if(f2.createNewFile()){
+                    if (f2.createNewFile()) {
                         System.out.println("The file has been created successfully!");
                         // ig i could've used a buffered wr and fw instead. ask about this bec i don't remember properly.
-                    }else
+                    } else
                         System.out.println("The file couldnt be created. Try again later.");
 
                 } catch (Exception e) {
                     System.out.println("An error has occurred. Please try again later.");
                 }
 
+
+            }
+        } else
+            System.out.println("Not enough arguments or invalid ones.. Please try again.");
+
+
+    }
+
+
+    public static void mv(String command) {
+        String[] commands = command.split(" ");
+
+        if (commands.length == 3) {
+            File f = new File(commands[1]);
+            if (f.isFile()) {
+                // todo: take a look of Apache FileUtils library. It allows to do this. Ask if i could use an external library for the exam.
+                // note for myself that i need to install the jar in order to use this library.
+                String[] path = commands[1].split("\\\\");
+                String filename = path[path.length - 1];
+
+                File f2 = new File(commands[2], filename);
+                try {
+                    if (f2.createNewFile() && f2.isDirectory()) {
+                        System.out.println("The file has been moved successfully!");
+                        f.delete();
+                        // ig i could've used a buffered wr and fw instead. ask about this bec i don't remember properly.
+                    } else {
+                        f.renameTo(f2);
+                        System.out.println("The file name has been changed successfully.");
+                    }
+                } catch (Exception e) {
+                    System.out.println("An error has occurred. Please try again later.");
+                }
 
 
             }
@@ -95,7 +128,7 @@ public class Main {
                     break;
 
                 case "mv":
-
+                    mv(command);
 
                     break;
                 case "rm":
