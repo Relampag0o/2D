@@ -12,10 +12,23 @@ import java.util.logging.ConsoleHandler;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
 
+    public static void recursiveDelete(String path) {
+        File f1 = new File(path);
+
+        for (File f : f1.listFiles()) {
+            if (f.isDirectory())
+                recursiveDelete(f.getPath());
+            else
+                f.delete();
+        }
+        f1.delete();
+
+    }
+
 
     public static void ls(String command) {
         String[] commands = command.split(" ");
-        System.out.println(commands.length);
+
 
         if (commands.length == 2) {
 
@@ -119,11 +132,6 @@ public class Main {
 
 
     public static void rm(String command) {
-/*
-El comando rm eliminará el fichero pasado por primer parámetro. Si es un directorio deberá dar un error.
-Ampliación: Para poder borrar un directorio se usa un segundo parámetro que sería -r, esto indicará que se hará un borrado recursivo,
-es decir, se borrará el contenido del directorio y luego el propio directorio.
- */
         String[] commands = command.split(" ");
 
         int numArgs = commands.length;
@@ -147,7 +155,12 @@ es decir, se borrará el contenido del directorio y luego el propio directorio.
                 break;
 
             case 3:
-                // RECURSION IN PROCESS..
+                if (commands[2].equals("-r") && new File(commands[1]).isDirectory()) {
+                    f1 = new File(commands[1]);
+                    recursiveDelete(f1.getPath());
+
+
+                }
 
                 break;
 
@@ -203,25 +216,20 @@ es decir, se borrará el contenido del directorio y luego el propio directorio.
 
                 break;
 
-            // ASK HOW TO IMPLEMENT RECURSION HERE.
+
         }
 
     }
 
     public static void touch(String command) {
 
-        /*
-        El comando touch creará un fichero en la ubicación indicada y con el nombre indicado como primer parámetro.
-        *** Que la ubicación que se le pase al comando touch exista. ***
-         */
 
         String[] commands = command.split(" ");
         if (commands.length == 3) {
-            File f1 = new File(commands[2]);
-            if (f1.isDirectory()) {
-                f1 = new File(commands[2], commands[1]);
+            File f1 = new File(commands[2], commands[1]);
+            if (f1.getParentFile().isDirectory()) {
                 try {
-                    if(f1.createNewFile()){
+                    if (f1.createNewFile()) {
                         System.out.println("The file has been successfully created.");
                     }
                 } catch (IOException e) {

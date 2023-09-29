@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
@@ -14,8 +16,8 @@ public class Main {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
 
-         JMenuItem openItem = new JMenuItem("Open");
-         JMenuItem exitItem = new JMenuItem("Exit");
+        JMenuItem openItem = new JMenuItem("Open");
+        JMenuItem exitItem = new JMenuItem("Exit");
 
         frame.setVisible(true);
 
@@ -24,6 +26,18 @@ public class Main {
         fileMenu.add(openItem);
         fileMenu.add(exitItem);
 
+
+        openItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser jFileChooser = new JFileChooser();
+                int val = jFileChooser.showOpenDialog(frame);
+                   if (val==1){
+                       
+                   }
+
+            }
+        });
 
 
     }
