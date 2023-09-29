@@ -120,7 +120,7 @@ public class Main {
 
     public static void rm(String command) {
 /*
-El comando rm eliminará el fichero pasado por primer parámetro si es un directorio deberá dar un error.
+El comando rm eliminará el fichero pasado por primer parámetro. Si es un directorio deberá dar un error.
 Ampliación: Para poder borrar un directorio se usa un segundo parámetro que sería -r, esto indicará que se hará un borrado recursivo,
 es decir, se borrará el contenido del directorio y luego el propio directorio.
  */
@@ -209,36 +209,62 @@ es decir, se borrará el contenido del directorio y luego el propio directorio.
     }
 
     public static void touch(String command) {
-        Scanner sc = new Scanner(System.in);
-        String[] commands = command.split(" ");
-        if (commands.length == 2) {
-            System.out.println("Indicate the route that you would like to create the file in: ");
-            String path = sc.nextLine();
-            System.out.println(path);
-            File f1 = new File(path,commands[1]);
-            if (f1.getParentFile().isDirectory()) {
-                try {
-                    if (f1.createNewFile())
-                        System.out.println("File successfully created.");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            } else
-                System.out.println("Invalid path.");
-
-        } else
-            System.out.println("Invalid amount of arguments. Try again");
-
-
-
 
         /*
         El comando touch creará un fichero en la ubicación indicada y con el nombre indicado como primer parámetro.
         *** Que la ubicación que se le pase al comando touch exista. ***
          */
 
+        String[] commands = command.split(" ");
+        if (commands.length == 3) {
+            File f1 = new File(commands[2]);
+            if (f1.isDirectory()) {
+                f1 = new File(commands[2], commands[1]);
+                try {
+                    if(f1.createNewFile()){
+                        System.out.println("The file has been successfully created.");
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+        }
 
     }
+
+    public static void grep(String command) {
+
+        Scanner sc = new Scanner(System.in);
+        String[] commands = command.split(" ");
+        if (commands.length == 3) {
+            File f1 = new File((commands[2]));
+            File[] files = f1.listFiles();
+            if (f1.isDirectory()) {
+                for (File f : files) {
+                    if (f.getName().contains(commands[1]))
+                        System.out.println(f.getName());
+                    else
+                        System.out.println("There werent occurrences that ");
+                }
+            } else
+                System.out.println("The path is not a directory. Try again");
+        } else if (commands.length == 2) {
+            File f1 = new File(System.getProperty("user.dir"));
+            File[] files = f1.listFiles();
+
+
+            for (File f : files) {
+                if (f.getName().contains(commands[1]))
+                    System.out.println(f.getName());
+
+            }
+
+        }
+
+
+    }
+
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -275,7 +301,7 @@ es decir, se borrará el contenido del directorio y luego el propio directorio.
 
                     break;
                 case "grep":
-
+                    grep(command);
 
                     break;
 
