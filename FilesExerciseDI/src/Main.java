@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
@@ -32,11 +33,27 @@ public class Main {
             public void actionPerformed(ActionEvent e) {
                 JFileChooser jFileChooser = new JFileChooser();
                 int val = jFileChooser.showOpenDialog(frame);
-                   if (val==1){
-                       
-                   }
+                if (val == JFileChooser.APPROVE_OPTION) {
+                    try (
+                            BufferedReader bfr = new BufferedReader(new FileReader(""))) {
+
+                        String line = "";
+
+                        while ((line = bfr.readLine()) != null) {
+
+
+                        }
+
+
+                    } catch (Exception e1) {
+                        System.out.println("Error");
+                    }
+                }
+
 
             }
+
+
         });
 
 
