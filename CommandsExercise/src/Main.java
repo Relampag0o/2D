@@ -215,11 +215,14 @@ es decir, se borrará el contenido del directorio y luego el propio directorio.
             System.out.println("Indicate the route that you would like to create the file in: ");
             String path = sc.nextLine();
             System.out.println(path);
-            File f1 = new File(path);
-            // File f1 = new File(path,commands[1]); // ESTA LINEA ARREGLA EL FALLO Y DESPUES CREATENEWFILE.
-            if (f1.isDirectory()) {
-                if (f1.renameTo(new File(commands[1])))
-                    System.out.println("File successfully created.");
+            File f1 = new File(path,commands[1]);
+            if (f1.getParentFile().isDirectory()) {
+                try {
+                    if (f1.createNewFile())
+                        System.out.println("File successfully created.");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             } else
                 System.out.println("Invalid path.");
 
