@@ -8,6 +8,7 @@ public class Main {
         frame.getContentPane().add(new ContactsForm().getPanel1());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
+        frame.setSize(400,400);
         frame.setVisible(true);
     }
 }
