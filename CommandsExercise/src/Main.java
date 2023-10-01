@@ -45,7 +45,7 @@ public class Main {
 
                 }
             } else {
-                System.out.println("The argument is not valid. Please try again.");
+                System.out.println("The file is not valid or doesnt exist.");
             }
 
         } else if (commands.length == 1) {
@@ -59,33 +59,34 @@ public class Main {
     }
 
 
-    public static void cp(String command) {
+    public static void cp(String command) throws IOException {
+
         String[] commands = command.split(" ");
 
+
         if (commands.length == 3) {
-            File f = new File(commands[1]);
-            if (f.isFile()) {
-                // todo: take a look of Apache FileUtils library. It allows to do this. Ask if i could use an external library for the exam.
-                // note for myself that i need to install the jar in order to use this library.
-                String[] path = commands[1].split("\\\\");
-                String filename = path[path.length - 1];
 
-                File f2 = new File(commands[2], filename);
+            File f1 = new File(commands[1]);
+            File f2 = new File(commands[2]);
+
+            if (f1.isFile() && f2.exists()) {
+
                 try {
-                    if (f2.createNewFile()) {
-                        System.out.println("The file has been created successfully!");
-                        // ig i could've used a buffered wr and fw instead. ask about this bec i don't remember properly.
-                    } else
-                        System.out.println("The file couldnt be created. Try again later.");
-
-                } catch (Exception e) {
-                    System.out.println("An error has occurred. Please try again later.");
+                    Files.copy(f1.toPath(), f2.toPath().resolve(f1.getName()), StandardCopyOption.REPLACE_EXISTING);
+                    //Files.copy(f1.toPath(), Path.of(f2.getPath(),f1.getName()), StandardCopyOption.REPLACE_EXISTING);
+                    // BOTH OPTIONS WORK BUT I WANTED TO TEST THE RESOLVE METHOD.
+                    System.out.println("The file has been copied successfully.");
+                } catch (IOException e) {
+                    System.out.println("Invalid files.");
                 }
 
 
-            }
+            } else
+                System.out.println("The files dont exist. Try again later or specify a valid argument.");
+
+
         } else
-            System.out.println("Not enough arguments or invalid ones.. Please try again.");
+            System.out.println("Invalid amount of arguments. Try again later");
 
 
     }
@@ -274,7 +275,7 @@ public class Main {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
         String command = sc.nextLine();
 
