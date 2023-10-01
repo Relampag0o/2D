@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Scanner;
 import java.util.logging.ConsoleHandler;
@@ -16,10 +17,8 @@ public class Main {
         File f1 = new File(path);
 
         for (File f : f1.listFiles()) {
-            if (f.isDirectory())
-                recursiveDelete(f.getPath());
-            else
-                f.delete();
+            if (f.isDirectory()) recursiveDelete(f.getPath());
+            else f.delete();
         }
         f1.delete();
 
@@ -81,18 +80,17 @@ public class Main {
                 }
 
 
-            } else
-                System.out.println("The files dont exist. Try again later or specify a valid argument.");
+            } else System.out.println("The files dont exist. Try again later or specify a valid argument.");
 
 
-        } else
-            System.out.println("Invalid amount of arguments. Try again later");
+        } else System.out.println("Invalid amount of arguments. Try again later");
 
 
     }
 
 
     public static void mv(String command) {
+        /*
         String[] commands = command.split(" ");
 
         if (commands.length == 3) {
@@ -130,6 +128,48 @@ public class Main {
     // APPARENTLY FILES.MOVE JUST TAKES 2 PATHS AND DELETES AND ADDS, IT DOESNT BOTHER ABOUT FILES OR FOLDERS.
 
     // TODO: OPTIMIZE THE CODE USING GETPARENT Y GETNAME. CAMBIAR TAMBIEN EL NEW DEL EJERCICIO ANTERIOR UTILIZANDO DIRECTAMENTE UN NEW FILE();
+
+*/
+
+
+        String[] commands = command.split(" ");
+
+        if (commands.length == 3) {
+            File f1 = new File(commands[1]);
+            File f2 = new File(commands[2]);
+
+            if (f1.isFile()) {
+                if (f2.isDirectory()) {
+                    try {
+                        Files.move(f1.toPath(), f2.toPath().resolve(f1.getName()), StandardCopyOption.REPLACE_EXISTING);
+                        System.out.println("The file has been moved successfully.");
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+
+                } else { //if (f1.renameTo(new File(f1.getParent(),f2.getName())))
+                    // ask if i could do this withouth the new...
+                    // checking if this is possible with Files.move again instead rename.
+
+                    try {
+                        Files.move(f1.toPath(), f1.toPath().resolveSibling(f2.getName()), StandardCopyOption.REPLACE_EXISTING);
+
+                        System.out.println("The file has been renamed successfully.");
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+
+
+                }
+
+            }
+        } else
+            System.out.println("Invalid amount of arguments. Try again");
+
+
+    }
+
 
 
     public static void rm(String command) {
@@ -186,10 +226,8 @@ public class Main {
             case 2:
                 File f1 = new File(commands[1], "test");
 
-                if (f1.mkdir())
-                    System.out.println("Folder created successfully.");
-                else
-                    System.out.println("There was an error creating the folder. Try again");
+                if (f1.mkdir()) System.out.println("Folder created successfully.");
+                else System.out.println("There was an error creating the folder. Try again");
 
                 break;
 
@@ -203,11 +241,9 @@ public class Main {
                                 System.out.println("The folders were created successfully.");
                             }
                         }
-                    } else if (f1.mkdir())
-                        System.out.println("The folder were created successfully.");
+                    } else if (f1.mkdir()) System.out.println("The folder were created successfully.");
 
-                } else
-                    System.out.println("Argument is not valid.");
+                } else System.out.println("Argument is not valid.");
 
 
                 break;
@@ -251,21 +287,17 @@ public class Main {
             File[] files = f1.listFiles();
             if (f1.isDirectory()) {
                 for (File f : files) {
-                    if (f.getName().contains(commands[1]))
-                        System.out.println(f.getName());
-                    else
-                        System.out.println("There werent occurrences that ");
+                    if (f.getName().contains(commands[1])) System.out.println(f.getName());
+                    else System.out.println("There werent occurrences that ");
                 }
-            } else
-                System.out.println("The path is not a directory. Try again");
+            } else System.out.println("The path is not a directory. Try again");
         } else if (commands.length == 2) {
             File f1 = new File(System.getProperty("user.dir"));
             File[] files = f1.listFiles();
 
 
             for (File f : files) {
-                if (f.getName().contains(commands[1]))
-                    System.out.println(f.getName());
+                if (f.getName().contains(commands[1])) System.out.println(f.getName());
 
             }
 
