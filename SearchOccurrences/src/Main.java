@@ -7,28 +7,29 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        try (BufferedReader bfr = new BufferedReader(new FileReader("C:\\Users\\Jose\\Desktop\\prueba.txt"));
-             BufferedWriter bfw = new BufferedWriter(new FileWriter("C:\\Users\\Jose\\Desktop\\reescribir.txt"))) {
+        try (BufferedReader bfr = new BufferedReader(new FileReader("C:\\Users\\Jose\\Desktop\\reescribirr.txt"));
+             BufferedWriter bfw = new BufferedWriter(new FileWriter("C:\\Users\\Jose\\Desktop\\sobreescribir.txt"))) {
             String line = "";
             int lineindex = 1;
 
             System.out.println("Specify the occurrence that you would like to search: ");
             String occurrence = sc.nextLine();
-            if (new File("C:\\Users\\Jose\\Desktop\\prueba.txt").exists() &&
-                    new File("C:\\Users\\Jose\\Desktop\\reescrdfibir.txt").exists()) {
+            if (new File("C:\\Users\\Jose\\Desktop\\reescribirr.txt").exists() &&
+                    new File("C:\\Users\\Jose\\Desktop\\sobreescribir.txt").exists()) {
 
                 while ((line = bfr.readLine()) != null) {
                     String[] occurrences = line.split("[\\s.,]+");
                     for (int i = 0; i < occurrences.length; i++) {
                         if (occurrences[i].contains(occurrence)) {
-                            bfw.write("Line: " + lineindex + " Column: " + i);
-                            bfw.newLine();
+                            bfw.write("Line: " + lineindex + " Column: " + i + "");
+
 
                         }
 
+
                     }
                     lineindex++;
-
+                    bfw.newLine();
                 }
 
 
