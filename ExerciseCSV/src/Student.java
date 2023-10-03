@@ -1,4 +1,4 @@
-public class Student {
+public class Student implements Comparable<Student> {
     private String name;
     private String speciality;
 
@@ -36,4 +36,9 @@ public class Student {
     }
 
 
+    @Override
+    public int compareTo(Student otherStudent) {
+
+        return Integer.compare(this.calification, otherStudent.calification);
+    }
 }
