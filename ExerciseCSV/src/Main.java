@@ -6,35 +6,55 @@ import java.util.*;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static int calculateMode(LinkedList<Student> students) {
-        HashMap<String, Integer> results = new HashMap<String, Integer>();
+        HashMap<Integer, Integer> results = new HashMap<Integer, Integer>();
         int maxValue = 0;
-
+        int mostFrecuentNumber = 0;
         for (Student s : students) {
-            if (results.containsKey(s.getSpeciality()))
-                results.put(s.getSpeciality(), +1);
+            if (results.containsKey(s.getCalification()))
+                results.put(s.getCalification(), results.get(s.getCalification()) + 1);
             else
-                results.put(s.getSpeciality(), 1);
+                results.put(s.getCalification(), 1);
         }
-        for (Map.Entry<String, Integer> entry : results.entrySet()) {
-            if (entry.getValue() > maxValue)
+
+
+        for (Map.Entry<Integer, Integer> entry : results.entrySet()) {
+            if (entry.getValue() > maxValue) {
+                System.out.println();
                 maxValue = entry.getValue();
+                mostFrecuentNumber = entry.getKey();
+            }
         }
-        return maxValue;
-        // dont know if there is any way to calculate the maxvalue of the map withouth iterating it.
-        // ive heard about Collections.max() but it doesnt work.
+        return mostFrecuentNumber;
     }
 
 
+    public static double[] calculatePassedAndFailledStudents(LinkedList<Student> students) {
+        int counter = 0;
+        // the first part of array is students that passed the exams.
+        // second part of array is students that couldnt pass the exams.
+        double[] percents = new double[2];
+        for (Student s : students) {
+            if (s.getCalification() >= 5)
+                percents[0]++;
+            else
+                percents[1]++;
+        }
+
+        percents[0] = percents[0] * 100 / students.size();
+        percents[1] = percents[1] * 100 / students.size();
+        return percents;
+
+    }
 
 
     public static void main(String[] args) {
-        String pathsource = "C:\\Users\\josem\\Desktop\\alumnos.csv";
-        String pathdest = "C:\\Users\\josem\\Desktop\\output.txt";
+        String pathsource = "C:\\Users\\Jose\\Desktop\\alumnos.csv";
+        String pathdest = "C:\\Users\\Jose\\Desktop\\output.txt";
         File f1 = new File(pathsource);
         File f2 = new File(pathdest);
 
         try (BufferedReader bfr = new BufferedReader(new FileReader(f1, StandardCharsets.UTF_8));
-             BufferedWriter bfw = new BufferedWriter(new FileWriter(f2,StandardCharsets.UTF_8))) {
+             BufferedWriter bfw = new BufferedWriter(new FileWriter(f2, StandardCharsets.UTF_8))) {
             String line = bfr.readLine();
             LinkedList<Student> students = new LinkedList<Student>();
             double counter = 0;
@@ -51,12 +71,13 @@ public class Main {
             bfw.newLine();
             System.out.println("Mode: " + calculateMode(students));
             bfw.write("Mode: " + calculateMode(students));
-
             Collections.sort(students);
-            System.out.println((students.get(students.size() / 2).getCalification() + students.get((students.size() - 1) / 2).getCalification()) / 2.0);
+            System.out.println((students.get(students.size() / 2).getCalification()));
             bfw.newLine();
-            bfw.write(Integer.toString((students.get(students.size() / 2).getCalification() + students.get((students.size() - 1) / 2).getCalification()) / 2));
-
+            bfw.write((students.get(students.size() / 2).getCalification()));
+            bfw.newLine();
+            System.out.println("Students that passed: " + calculatePassedAndFailledStudents(students)[0] + "Students who failled: " + calculatePassedAndFailledStudents(students)[1]);
+bfw.write("Students that passed: " + calculatePassedAndFailledStudents(students)[0] + "%" + " Students who failled: " + calculatePassedAndFailledStudents(students)[1] + "%");
         } catch (Exception e) {
             System.out.println("Error..");
         }
