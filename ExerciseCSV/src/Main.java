@@ -1,4 +1,5 @@
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -24,14 +25,16 @@ public class Main {
     }
 
 
+
+
     public static void main(String[] args) {
         String pathsource = "C:\\Users\\josem\\Desktop\\alumnos.csv";
         String pathdest = "C:\\Users\\josem\\Desktop\\output.txt";
         File f1 = new File(pathsource);
         File f2 = new File(pathdest);
 
-        try (BufferedReader bfr = new BufferedReader(new FileReader(f1));
-             BufferedWriter bfw = new BufferedWriter(new FileWriter(f2))) {
+        try (BufferedReader bfr = new BufferedReader(new FileReader(f1, StandardCharsets.UTF_8));
+             BufferedWriter bfw = new BufferedWriter(new FileWriter(f2,StandardCharsets.UTF_8))) {
             String line = bfr.readLine();
             LinkedList<Student> students = new LinkedList<Student>();
             double counter = 0;
@@ -48,10 +51,11 @@ public class Main {
             bfw.newLine();
             System.out.println("Mode: " + calculateMode(students));
             bfw.write("Mode: " + calculateMode(students));
-         
+
             Collections.sort(students);
             System.out.println((students.get(students.size() / 2).getCalification() + students.get((students.size() - 1) / 2).getCalification()) / 2.0);
-
+            bfw.newLine();
+            bfw.write(Integer.toString((students.get(students.size() / 2).getCalification() + students.get((students.size() - 1) / 2).getCalification()) / 2));
 
         } catch (Exception e) {
             System.out.println("Error..");
