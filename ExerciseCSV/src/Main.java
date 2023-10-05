@@ -77,7 +77,8 @@ public class Main {
             bfw.write((students.get(students.size() / 2).getCalification()));
             bfw.newLine();
             System.out.println("Students that passed: " + calculatePassedAndFailledStudents(students)[0] + "Students who failled: " + calculatePassedAndFailledStudents(students)[1]);
-bfw.write("Students that passed: " + calculatePassedAndFailledStudents(students)[0] + "%" + " Students who failled: " + calculatePassedAndFailledStudents(students)[1] + "%");
+            bfw.write("Students that passed: " + calculatePassedAndFailledStudents(students)[0] + "%" + " Students who failled: " + calculatePassedAndFailledStudents(students)[1] + "%");
+            
         } catch (Exception e) {
             System.out.println("Error..");
         }

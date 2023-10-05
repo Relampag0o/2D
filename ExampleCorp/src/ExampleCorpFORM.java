@@ -1,9 +1,15 @@
 import javax.swing.*;
 
 public class ExampleCorpFORM {
+
     private JPanel panel1;
     private JTextField welcomeToExampleCorpTextField;
     private JTextField textField1;
+    private JButton sendButton;
+    private JCheckBox subscribeToThewNewsletterCheckBox;
+    private JRadioButton maleRadioButton;
+    private JRadioButton femaleRadioButton;
+    private JRadioButton otherRadioButton;
 
     public JPanel getPanel1() {
         return panel1;
