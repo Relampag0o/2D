@@ -19,7 +19,6 @@ public class Main {
 
         for (Map.Entry<Integer, Integer> entry : results.entrySet()) {
             if (entry.getValue() > maxValue) {
-                System.out.println();
                 maxValue = entry.getValue();
                 mostFrecuentNumber = entry.getKey();
             }
@@ -28,10 +27,11 @@ public class Main {
     }
 
 
-    public static double[] calculatePassedAndFailledStudents(LinkedList<Student> students) {
+    public static double[] calculatePassedAndFailedStudents(LinkedList<Student> students) {
         int counter = 0;
         // the first part of array is students that passed the exams.
         // second part of array is students that couldnt pass the exams.
+        // this was the fastest way to output both results withouth using another method or unnecessary lines.
         double[] percents = new double[2];
         for (Student s : students) {
             if (s.getCalification() >= 5)
@@ -46,6 +46,16 @@ public class Main {
 
     }
 
+    public static String calitifactionsBySpecialty(LinkedList<Student> students) {
+        HashMap<String, LinkedList<Integer>> mapOfSpecialties = new HashMap<String, LinkedList<Integer>>();
+
+        for (Student s : students) {
+            if (!mapOfSpecialties.containsKey(s.getSpeciality()))
+                mapOfSpecialties.put(s.getSpeciality(), new LinkedList<Integer>());
+        }
+
+        return "";
+    }
 
     public static void main(String[] args) {
         String pathsource = "C:\\Users\\Jose\\Desktop\\alumnos.csv";
@@ -71,18 +81,16 @@ public class Main {
             bfw.newLine();
             System.out.println("Mode: " + calculateMode(students));
             bfw.write("Mode: " + calculateMode(students));
+
             Collections.sort(students);
-            System.out.println((students.get(students.size() / 2).getCalification()));
+            System.out.println("Median:" + "" + (students.get(students.size() / 2).getCalification()));
             bfw.newLine();
-            bfw.write((students.get(students.size() / 2).getCalification()));
+            bfw.write("Median:" + "" + (students.get(students.size() / 2).getCalification()));
             bfw.newLine();
-            System.out.println("Students that passed: " + calculatePassedAndFailledStudents(students)[0] + "Students who failled: " + calculatePassedAndFailledStudents(students)[1]);
-<<<<<<< HEAD
-            bfw.write("Students that passed: " + calculatePassedAndFailledStudents(students)[0] + "%" + " Students who failled: " + calculatePassedAndFailledStudents(students)[1] + "%");
-            
-=======
-bfw.write("Students that passed: " + calculatePassedAndFailledStudents(students)[0] + "%" + " Students who failled: " + calculatePassedAndFailledStudents(students)[1] + "%");
->>>>>>> parent of 4cce797 (.)
+            System.out.println("Students that passed: " + Math.round(calculatePassedAndFailedStudents(students)[0]) + "%" + '\n' + "Students who failled: " + Math.round(calculatePassedAndFailedStudents(students)[1]) + "%");
+            bfw.write("Students that passed: " + Math.round(calculatePassedAndFailedStudents(students)[0]) + "%" + '\n' + "Students who failled: " + Math.round(calculatePassedAndFailedStudents(students)[1]) + "%");
+            calitifactionsBySpecialty(students);
+
         } catch (Exception e) {
             System.out.println("Error..");
         }
