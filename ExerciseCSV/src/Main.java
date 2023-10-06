@@ -46,15 +46,23 @@ public class Main {
 
     }
 
-    public static String calitifactionsBySpecialty(LinkedList<Student> students) {
-        HashMap<String, LinkedList<Integer>> mapOfSpecialties = new HashMap<String, LinkedList<Integer>>();
-
+    public static String calitifactionsBySpecialty(LinkedList<Student> students, String speciality) {
+        int[] califications = new int[3];
+        int amountOfStudentsBySpeciality = 0;
         for (Student s : students) {
-            if (!mapOfSpecialties.containsKey(s.getSpeciality()))
-                mapOfSpecialties.put(s.getSpeciality(), new LinkedList<Integer>());
-        }
+            if (s.getSpeciality().equalsIgnoreCase(speciality)) {
+                califications[0] += s.getCalification();
+                amountOfStudentsBySpeciality++;
+                if (s.getCalification() >= 5)
+                    califications[1] = califications[1] + 1;
+                else
+                    califications[2] = califications[2] + 1;
+            }
 
-        return "";
+        }
+        return "Califications by speciality " + speciality + " : Average:  " + califications[0] / amountOfStudentsBySpeciality +
+                " Students that passed: " + califications[1] * 100 / amountOfStudentsBySpeciality + " Students that failed: " +
+                califications[2] * 100 / amountOfStudentsBySpeciality;
     }
 
     public static void main(String[] args) {
@@ -62,6 +70,7 @@ public class Main {
         String pathdest = "C:\\Users\\Jose\\Desktop\\output.txt";
         File f1 = new File(pathsource);
         File f2 = new File(pathdest);
+        String s = "";
 
         try (BufferedReader bfr = new BufferedReader(new FileReader(f1, StandardCharsets.UTF_8));
              BufferedWriter bfw = new BufferedWriter(new FileWriter(f2, StandardCharsets.UTF_8))) {
@@ -89,7 +98,10 @@ public class Main {
             bfw.newLine();
             System.out.println("Students that passed: " + Math.round(calculatePassedAndFailedStudents(students)[0]) + "%" + '\n' + "Students who failled: " + Math.round(calculatePassedAndFailedStudents(students)[1]) + "%");
             bfw.write("Students that passed: " + Math.round(calculatePassedAndFailedStudents(students)[0]) + "%" + '\n' + "Students who failled: " + Math.round(calculatePassedAndFailedStudents(students)[1]) + "%");
-            calitifactionsBySpecialty(students);
+            System.out.println(calitifactionsBySpecialty(students, "ciencias"));
+            System.out.println(calitifactionsBySpecialty(students, "letras"));
+            System.out.println(calitifactionsBySpecialty(students, "artes"));
+
 
         } catch (Exception e) {
             System.out.println("Error..");
