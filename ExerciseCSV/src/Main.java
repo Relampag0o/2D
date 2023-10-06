@@ -116,6 +116,11 @@ public class Main {
         }
         for (String w : namesWithTilde) {
             System.out.println("Name: " + w);
+            try {
+                bfw.write("Name: " + w + '\n');
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         return "";
@@ -165,7 +170,7 @@ public class Main {
             bfw.write(calitifactionsBySpecialty(students, "letras") + '\n');
             bfw.write(calitifactionsBySpecialty(students, "artes") + '\n');
             System.out.println(countStudentsByOccurrence(students, "j"));
-            searchNamesWithTilde(students,);
+            searchNamesWithTilde(students,f2,bfw);
 
         } catch (Exception e) {
             System.out.println("Error..");
