@@ -5,6 +5,36 @@ import java.util.*;
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
+
+    public static void writeData(LinkedList<Student> students, BufferedWriter bfw, BufferedReader bfr, File f2) {
+        try {
+            String line = bfr.readLine();
+            double counter = 0;
+            while ((line = bfr.readLine()) != null) {
+                String[] studentsinfo = line.split(";");
+                students.add(new Student(studentsinfo[0], studentsinfo[1], Integer.parseInt(studentsinfo[2])));
+                counter += Integer.parseInt(studentsinfo[2]);
+            }
+            bfw.write("Amount of students: " + students.size() + '\n');
+            bfw.write("Average: " + counter / students.size() + '\n');
+            bfw.write("Mode: " + calculateMode(students) + '\n');
+            Collections.sort(students);
+            bfw.write("Median:" + "" + (students.get(students.size() / 2).getCalification()) + '\n');
+            calculatePassedAndFailedStudents(students, bfw);
+            listSpecialties(students, bfw);
+            calitifactionsBySpecialty(students,"ciencias",bfw);
+
+            bfw.write("---AMPLIATION TASKS---" + '\n');
+            bfw.write("TASK 1: Search names that start with x occurrence: " + '\n');
+            countStudentsByOccurrence(students, bfw, "j");
+            bfw.write("TASK 2: Search names that have tilde: " + '\n');
+            searchNamesWithTilde(students, f2, bfw);
+
+        } catch (IOException io) {
+            System.out.println("There was an error either creating or writing the file...");
+        }
+    }
+
     public static int calculateMode(LinkedList<Student> students) {
         HashMap<Integer, Integer> results = new HashMap<Integer, Integer>();
         int maxValue = 0;
@@ -27,7 +57,7 @@ public class Main {
     }
 
 
-    public static double[] calculatePassedAndFailedStudents(LinkedList<Student> students) {
+    public static void calculatePassedAndFailedStudents(LinkedList<Student> students, BufferedWriter bfw) {
         int counter = 0;
         // the first part of array is students that passed the exams.
         // second part of array is students that couldnt pass the exams.
@@ -39,14 +69,16 @@ public class Main {
             else
                 percents[1]++;
         }
+        try {
+            bfw.write("Students that passed: " + Math.round(percents[0]) * 100 / students.size() + "%" + '\n' + "Students who failed: " + Math.round(percents[1]) * 100 / students.size() + "%" + '\n');
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-        percents[0] = percents[0] * 100 / students.size();
-        percents[1] = percents[1] * 100 / students.size();
-        return percents;
 
     }
 
-    public static String listSpecialties(LinkedList<Student> students) {
+    public static void listSpecialties(LinkedList<Student> students, BufferedWriter bfw) {
         LinkedList<String> specialties = new LinkedList<String>();
         String s = "";
         for (Student st : students) {
@@ -63,11 +95,15 @@ public class Main {
 
         }
 
-        return s;
+        try {
+            bfw.write(s + '\n');
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
-    public static String calitifactionsBySpecialty(LinkedList<Student> students, String speciality) {
+    public static void calitifactionsBySpecialty(LinkedList<Student> students, String speciality,BufferedWriter bfw) {
         double[] califications = new double[3];
         int amountOfStudentsBySpeciality = 0;
         for (Student s : students) {
@@ -81,22 +117,43 @@ public class Main {
             }
 
         }
-        return speciality + ": " + '\n' + " Average: " + califications[0] / amountOfStudentsBySpeciality +
-                '\n' + " Students that passed: " + Math.round(califications[1] * 100 / amountOfStudentsBySpeciality) + "% " + '\n' + " Students that failed: " +
-                Math.round(califications[2] * 100 / amountOfStudentsBySpeciality) + "%";
+        try {
+            bfw.write(
+             speciality + ": " + '\n' + " Average: " + califications[0] / amountOfStudentsBySpeciality +
+                    '\n' + " Students that passed: " + Math.round(califications[1] * 100 / amountOfStudentsBySpeciality) + "% " + '\n' + " Students that failed: " +
+                    Math.round(califications[2] * 100 / amountOfStudentsBySpeciality) + "%");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
-    public static int countStudentsByOccurrence(LinkedList<Student> students, String occurrence) {
+    public static void countStudentsByOccurrence(LinkedList<Student> students, BufferedWriter bfw, String occurrence) {
+        LinkedList<String> names = new LinkedList<String>();
+
         int counter = 0;
         for (Student s : students) {
-            if (s.getName().contains(occurrence)) {
+            if (String.valueOf(s.getName().charAt(0)).equalsIgnoreCase(occurrence)) {
+                names.add(s.getName());
                 counter++;
             }
         }
-        return counter;
+        for (String n : names) {
+            try {
+                bfw.write("Name: " + n + '\n');
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        try {
+            bfw.write("There are " + counter + " names that start with the occurrence " + occurrence + '\n');
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
-    public static String searchNamesWithTilde(LinkedList<Student> students,File f,BufferedWriter bfw ) {
+    public static String searchNamesWithTilde(LinkedList<Student> students, File f, BufferedWriter bfw) {
         Set<String> namesWithTilde = new TreeSet<>();
         int[] asciiCodes = {225, 233, 237, 243, 250};
         // im using the TreeSet because it automatically sorts the list.
@@ -115,7 +172,6 @@ public class Main {
 
         }
         for (String w : namesWithTilde) {
-            System.out.println("Name: " + w);
             try {
                 bfw.write("Name: " + w + '\n');
             } catch (IOException e) {
@@ -127,54 +183,18 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        String pathsource = "C:\\Users\\Josem\\Desktop\\alumnos.csv";
-        String pathdest = "C:\\Users\\Josem\\Desktop\\output.txt";
-        File f1 = new File(pathsource);
-        File f2 = new File(pathdest);
-
-
+        File f1 = new File("C:\\Users\\Jose\\Desktop\\alumnos.csv");
+        File f2 = new File("C:\\Users\\Jose\\Desktop\\output.txt");
         try (BufferedReader bfr = new BufferedReader(new FileReader(f1, StandardCharsets.UTF_8));
              BufferedWriter bfw = new BufferedWriter(new FileWriter(f2, StandardCharsets.UTF_8))) {
-            String line = bfr.readLine();
             LinkedList<Student> students = new LinkedList<Student>();
-            double counter = 0;
-            while ((line = bfr.readLine()) != null) {
-                String[] studentsinfo = line.split(";");
-                students.add(new Student(studentsinfo[0], studentsinfo[1], Integer.parseInt(studentsinfo[2])));
-                counter += Integer.parseInt(studentsinfo[2]);
-            }
-            System.out.println("Amount of students: " + students.size());
-            System.out.println("Average: " + counter / students.size());
-            bfw.write("Amount of students: " + students.size());
-            bfw.newLine();
-            bfw.write("Average: " + counter / students.size());
-            bfw.newLine();
-            System.out.println("Mode: " + calculateMode(students));
-            bfw.write("Mode: " + calculateMode(students));
-
-            Collections.sort(students);
-            System.out.println("Median:" + "" + (students.get(students.size() / 2).getCalification()));
-            bfw.newLine();
-            bfw.write("Median:" + "" + (students.get(students.size() / 2).getCalification()));
-            bfw.newLine();
-            System.out.println("Students that passed: " + Math.round(calculatePassedAndFailedStudents(students)[0]) + "%" + '\n' + "Students who failled: " + Math.round(calculatePassedAndFailedStudents(students)[1]) + "%");
-            bfw.write("Students that passed: " + Math.round(calculatePassedAndFailedStudents(students)[0]) + "%" + '\n' + "Students who failled: " + Math.round(calculatePassedAndFailedStudents(students)[1]) + "%");
-            bfw.newLine();
-            System.out.println(listSpecialties(students));
-            bfw.write("List of specialites: " + listSpecialties(students));
-            bfw.newLine();
-            System.out.println(calitifactionsBySpecialty(students, "ciencias"));
-            System.out.println(calitifactionsBySpecialty(students, "letras"));
-            System.out.println(calitifactionsBySpecialty(students, "artes"));
-            bfw.write(calitifactionsBySpecialty(students, "ciencias") + '\n');
-            bfw.write(calitifactionsBySpecialty(students, "letras") + '\n');
-            bfw.write(calitifactionsBySpecialty(students, "artes") + '\n');
-            System.out.println(countStudentsByOccurrence(students, "j"));
-            searchNamesWithTilde(students,f2,bfw);
+            writeData(students, bfw, bfr, f2);
 
         } catch (Exception e) {
             System.out.println("Error..");
         }
+
+
     }
 
 }
