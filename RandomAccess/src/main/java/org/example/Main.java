@@ -11,7 +11,7 @@ public class Main {
         File f2 = new File(dst);
         try (BufferedReader bfr = new BufferedReader(new FileReader(f));
              BufferedWriter bfw = new BufferedWriter(new FileWriter(dst))) {
-            String line = bfr.readLine();
+            String line = bfr.readLine() + "\n";
             int index = line.getBytes().length;
 
             while ((line = bfr.readLine()) != null) {
@@ -46,9 +46,11 @@ public class Main {
             if (found) {
                 try {
                     RandomAccessFile raf = new RandomAccessFile(dbSrc, "r");
+                    System.out.println(index);
                     raf.seek(index);
                     FileReader fr = new FileReader(raf.getFD());
                     BufferedReader bfr2 = new BufferedReader(fr);
+                    System.out.println(bfr2.readLine());
                     System.out.println(bfr2.readLine());
                 } catch (Exception e) {
                     System.out.println("Error..");
@@ -73,7 +75,7 @@ public class Main {
                     createIndex(args[1], args[2]);
                     break;
                 default:
-                    System.err.println("Not supported opperattion");
+                    System.err.println("Not supported operattion");
                     break;
             }
         } else if (args.length == 4) {

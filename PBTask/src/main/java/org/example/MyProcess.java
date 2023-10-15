@@ -1,12 +1,12 @@
 package org.example;
 
-public class MyProcess {
+public class MyProcess  {
 
     private String name;
     private int arrival;
     private int exetime;
 
-    public MyProcess(String name, int arrival, int exetime) {
+    public MyProcess(String name, int arrival, int exetime){
         this.name = name;
         this.arrival = arrival;
         this.exetime = exetime;
@@ -49,5 +49,7 @@ public class MyProcess {
             }
         }
     }
+
+
 }
 
