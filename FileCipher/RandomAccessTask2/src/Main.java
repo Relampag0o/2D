@@ -14,13 +14,12 @@ public class Main {
     }
 
 
-
     public static void createIndex(String src, String path) {
 
         try {
 
 
-            BufferedReader bfr = new BufferedReader(new FileReader(src, StandardCharsets.UTF_8));
+            BufferedReader bfr = new BufferedReader(new FileReader(src,StandardCharsets.ISO_8859_1));
             BufferedWriter bfw = new BufferedWriter((new FileWriter(path, StandardCharsets.UTF_8)));
 
             String line = "";
@@ -31,11 +30,11 @@ public class Main {
 
                 for (String w : words) {
                     // using trim to delete blank spaces at the beginning and at the end of the line.
-                    if (w.trim().length() > 1) {
+                    if (w.length() > 1) {
                         // if the array has a single element, it means it took the '\n';
                         // this conditional compares if the array has more than 1 element, which should be a real phrase instead the '\n';
-                        bfw.write("Char: " + charCounter + " " + w.trim() + "." + '\n');
-                        charCounter += w.trim().getBytes().length+'\n';
+                        bfw.write(w + "." + '\n');
+                        charCounter += w.getBytes().length + '\n';
                     }
 
                 }

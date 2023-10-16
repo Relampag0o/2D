@@ -2,6 +2,7 @@
 // then press Enter. You can now see whitespace characters in your code.
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.Random;
 
 public class Cipher {
@@ -10,9 +11,7 @@ public class Cipher {
 
     public Cipher(int password) {
         swaps = new int[256];
-        for (int i = 0; i < swaps.length; i++) {
-            swaps[i] = -1;
-        }
+        Arrays.fill(swaps, -1);
         shuffle(password);
     }
 
@@ -62,10 +61,10 @@ public class Cipher {
                 while ((line = bfr.readLine()) != null) {
                     for (int i = 0; i < line.length(); i++) {
                         for (int j = 0; j < swaps.length; j++) {
-                            if (swaps[j] == line.charAt(i))
-                                //bfw.write((char)swaps[j]);
+                            if (swaps[j] == line.charAt(i)) {
                                 bfw.write((char) j);
-                            // ask how does this work instead the previous lane..
+                                break;
+                            }
                         }
                     }
                 }
@@ -117,7 +116,7 @@ public class Cipher {
     public static void main(String[] args) {
 
         if (args.length == 4) {
-            Cipher cipher = new Cipher(Integer.parseInt(args[1]));
+            Cipher cipher = new Cipher(args[1].hashCode());
             cipher.showSwaps();
             switch (args[0]) {
                 case "-c":

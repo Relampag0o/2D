@@ -19,10 +19,10 @@ public class Simulator {
         }
 */
 
-        processes.add(new MyProcess("p1", 0, 5));
-        processes.add(new MyProcess("p2", 1, 3));
-        processes.add(new MyProcess("p3", 2, 2));
-        processes.add(new MyProcess("p4", 3, 2));
+        processes.add(new MyProcess("p1", 0, 3));
+        processes.add(new MyProcess("p2", 1, 4));
+        processes.add(new MyProcess("p3", 1, 2));
+        processes.add(new MyProcess("p4", 1, 1));
 
     }
 
