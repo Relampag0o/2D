@@ -1,3 +1,5 @@
+import java.lang.reflect.Array;
+import java.sql.SQLOutput;
 import java.util.*;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -20,9 +22,9 @@ public class Simulator {
 */
 
         processes.add(new MyProcess("p1", 0, 3));
-        processes.add(new MyProcess("p2", 1, 4));
-        processes.add(new MyProcess("p3", 1, 2));
-        processes.add(new MyProcess("p4", 1, 1));
+        processes.add(new MyProcess("p2", 2, 4));
+        processes.add(new MyProcess("p3", 3, 2));
+        processes.add(new MyProcess("p4", 3, 1));
 
     }
 
@@ -31,15 +33,13 @@ public class Simulator {
         simulation();
     }
 
-    public LinkedList<MyProcess> playSJF() {
-        LinkedList<MyProcess> sorted = new LinkedList<MyProcess>();
+    public void playSJF() {
+        LinkedList<MyProcess> sortedProcesses = new LinkedList<MyProcess>();
         int currentTime = 0;
 
         while (!processes.isEmpty()) {
             MyProcess shortestProcess = null;
             int shortestTime = Integer.MAX_VALUE;
-            // i copied that line from somewhere, just wanted to set a high value to this variable
-            // so i can update it on the first iteration..
             for (MyProcess proc : processes) {
                 if (proc.getArrival() <= currentTime && proc.getExecution() < shortestTime) {
                     shortestProcess = proc;
@@ -48,21 +48,14 @@ public class Simulator {
             }
             if (shortestProcess != null) {
                 currentTime += shortestProcess.getExecution();
-                // didnt want to do sorted.add(shortestProcess)
-                // just in case i get any issue doing so.
-                // rather prefered to instance a new one.
-                sorted.add(new MyProcess(shortestProcess.getName(), shortestProcess.getArrival(), shortestProcess.getExecution()));
+                sortedProcesses.add(new MyProcess(shortestProcess.getName(), shortestProcess.getArrival(), shortestProcess.getExecution()));
                 processes.remove(shortestProcess);
             } else
                 currentTime++;
-
         }
-
-        // showing the processes..
-        for (MyProcess p : sorted) {
-            System.out.println("Process name: " + p.getName() + " arrival time: " + p.getArrival() + " execution time: " + p.getExecution());
-        }
-        return sorted;
+        processes.clear();
+        processes.addAll(sortedProcesses);
+        simulation();
     }
 
 
@@ -72,7 +65,6 @@ public class Simulator {
         for (MyProcess proc : processes) {
             String execTime = proc.getExecution() + "";
             ProcessBuilder processBuilder = new ProcessBuilder(command, mainClass, execTime);
-
             try {
                 System.out.println("Executing process:  " + proc.getName());
                 Process process = processBuilder.start();
@@ -99,17 +91,13 @@ public class Simulator {
 
         Simulator sim = new Simulator();
         sim.generateProcesses();
-/*
-        System.out.println("---FCFS---");
-        System.out.println("BEFORE SORTING: ");
-        sim.showTableProcesses();
-        sim.simulation();
-        System.out.println("AFTER SORTING: ");
-        sim.playFCFS();
-        sim.showTableProcesses();
-        System.out.println("---SJF---");
-*/
 
+        System.out.println("PLAYING FCFS:");
+        sim.playFCFS();
+
+        System.out.println("-----");
+
+        System.out.println("PLAYING SJF: ");
         sim.playSJF();
 
 

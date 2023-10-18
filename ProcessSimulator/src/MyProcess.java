@@ -3,7 +3,7 @@ public class MyProcess implements Comparable<MyProcess> {
     private int execution;
     private int arrival;
 
-    public MyProcess(String name,int arrival, int execution) {
+    public MyProcess(String name, int arrival, int execution) {
         this.name = name;
         this.execution = execution;
         this.arrival = arrival;
@@ -40,6 +40,7 @@ public class MyProcess implements Comparable<MyProcess> {
                 System.out.println("Im starting..");
                 Thread.sleep(seconds * 1000);
                 System.out.println("Im finishing..");
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
