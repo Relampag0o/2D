@@ -67,6 +67,7 @@ public class Cipher {
                             }
                         }
                     }
+                    bfw.newLine();
                 }
 
 
@@ -100,7 +101,6 @@ public class Cipher {
             if (swaps[i] == value)
                 return true;
         }
-
         return false;
     }
 
