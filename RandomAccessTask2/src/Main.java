@@ -17,12 +17,13 @@ public class Main {
         BufferedReader bfr = null;
         BufferedWriter bfw = null;
         try {
-            bfr = new BufferedReader(new FileReader(src, StandardCharsets.ISO_8859_1));
-            bfw = new BufferedWriter((new FileWriter(path, StandardCharsets.UTF_8)));
+            bfr = new BufferedReader(new FileReader(src));
+            bfw = new BufferedWriter((new FileWriter(path)));
             int c;
             int charCounter = 0;
             bfw.write("0" + ":");
             while ((c = bfr.read()) != -1) {
+                //System.out.println((char) c + ": " + String.valueOf(c).getBytes().length);
                 if (c == '.') {
                     bfw.write(c);
                     bfw.newLine();
@@ -50,6 +51,7 @@ public class Main {
         BufferedReader bfr = null;
         try {
             bfr = new BufferedReader(new FileReader("C:\\Users\\Jose\\Desktop\\QuijoteIndexes.txt", StandardCharsets.ISO_8859_1));
+
             String line = "";
             int counter = 0;
             boolean found = false;
@@ -70,7 +72,9 @@ public class Main {
                         raf.seek(index);
                         FileReader fr = new FileReader(raf.getFD());
                         bfr = new BufferedReader(fr);
-                        System.out.println(bfr.readLine());
+
+                        System.out.println(line.split(":")[1]);
+
                         found = true;
                     }
                 }
@@ -86,9 +90,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-// revisar como se estan contando los caracteres;
+
         createIndex(args[0], args[1]);
-        readPhrase(11);
+        readPhrase(15);
 
     }
 
