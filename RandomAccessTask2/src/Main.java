@@ -1,73 +1,94 @@
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
 
 
-// TODO: ASK ABOUT THE STANDARD UTF8. IT IS NOT ADDING THE TILDES EVEN THO IM USING IT.
 public class Main {
     public static void close(Closeable c) {
         try {
             c.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
 
     public static void createIndex(String src, String path) {
-
+        BufferedReader bfr = null;
+        BufferedWriter bfw = null;
         try {
-
-
-            BufferedReader bfr = new BufferedReader(new FileReader(src,StandardCharsets.ISO_8859_1));
-            BufferedWriter bfw = new BufferedWriter((new FileWriter(path, StandardCharsets.UTF_8)));
-
-            String line = "";
+            bfr = new BufferedReader(new FileReader(src, StandardCharsets.ISO_8859_1));
+            bfw = new BufferedWriter((new FileWriter(path, StandardCharsets.UTF_8)));
+            int c;
             int charCounter = 0;
-
-            while ((line = bfr.readLine()) != null) {
-                String[] words = line.split("\\.");
-
-                for (String w : words) {
-                    // using trim to delete blank spaces at the beginning and at the end of the line.
-                    if (w.length() > 1) {
-                        // if the array has a single element, it means it took the '\n';
-                        // this conditional compares if the array has more than 1 element, which should be a real phrase instead the '\n';
-                        bfw.write(w + "." + '\n');
-                        charCounter += w.getBytes().length + '\n';
-                    }
-
+            bfw.write("0" + ":");
+            while ((c = bfr.read()) != -1) {
+                if (c == '.') {
+                    bfw.write(c);
+                    bfw.newLine();
+                    charCounter++;
+                    bfw.write(charCounter + ":");
+                } else if (c != (int) '\n' && c != (int) '\r') {
+                    charCounter++;
+                    bfw.write(c);
+                } else {
+                    charCounter++;
                 }
             }
-            close(bfr);
-            close(bfw);
 
 
         } catch (Exception e) {
-            System.out.println("Error..");
+            e.printStackTrace();
+            System.out.println("ERror..");
+        } finally {
+            close(bfw);
+            close(bfr);
         }
     }
-
-    // wonder if i have to use the index file previously created, but seems like i dont have to.
 
     public static void readPhrase(int phrase) {
-
+        BufferedReader bfr = null;
         try {
-            RandomAccessFile raf = new RandomAccessFile("C:\\Users\\Jose\\Downloads\\quijote.txt", "r");
-            raf.seek(phrase);
-            FileReader fr = new FileReader(raf.getFD());
-            BufferedReader bfr2 = new BufferedReader(fr);
-            System.out.println(bfr2.readLine());
-            System.out.println(bfr2.readLine());
-        } catch (Exception e) {
-            System.out.println("Error..");
-        }
+            bfr = new BufferedReader(new FileReader("C:\\Users\\Jose\\Desktop\\QuijoteIndexes.txt", StandardCharsets.ISO_8859_1));
+            String line = "";
+            int counter = 0;
+            boolean found = false;
 
+            if (phrase == 0) {
+                RandomAccessFile raf = new RandomAccessFile("C:\\Users\\Jose\\Downloads\\quijote.txt", "r");
+                raf.seek(0);
+                FileReader fr = new FileReader(raf.getFD());
+                bfr = new BufferedReader(fr);
+                System.out.println(bfr.readLine());
+            } else {
+
+                while ((line = bfr.readLine()) != null && !found) {
+                    counter++;
+                    if (counter == phrase) {
+                        int index = Integer.parseInt(line.split(":")[0]);
+                        RandomAccessFile raf = new RandomAccessFile("C:\\Users\\Jose\\Downloads\\quijote.txt", "r");
+                        raf.seek(index);
+                        FileReader fr = new FileReader(raf.getFD());
+                        bfr = new BufferedReader(fr);
+                        System.out.println(bfr.readLine());
+                        found = true;
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close(bfr);
+        }
     }
 
+
     public static void main(String[] args) {
+
+// revisar como se estan contando los caracteres;
         createIndex(args[0], args[1]);
-        readPhrase(190);
+        readPhrase(11);
 
     }
 
